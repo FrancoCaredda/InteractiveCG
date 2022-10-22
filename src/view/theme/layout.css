@@ -1,0 +1,63 @@
+div#page {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+div#page div#side-bar {
+    display: flex;
+    flex-direction: column;
+    background: #353535;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+    width: 200px;
+}
+
+div#page div#side-bar div#logo {
+    margin-top: 38%;
+    margin-bottom: 85%;
+}
+
+div#page div#side-bar div#logo h2, div#page div#side-bar div#logo p {
+    margin: 0;
+    text-align: center;
+    color: #fff;
+    font-family: 'Hurricane', cursive;
+}
+
+div#page div#side-bar div#logo h2 {
+    font-size: 45px;
+}
+
+div#page div#side-bar div#side-bar-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+div#page div#side-bar div#side-bar-nav ul li {
+    width: 200px;
+    height: 90px;
+    border-bottom: 0.5px solid #000;
+}
+
+div#page div#side-bar div#side-bar-nav ul li:first-child {
+    border-top: 0.5px solid #000;   
+}
+
+div#page div#side-bar div#side-bar-nav ul li:hover {
+    background-color: #2E2E2E;
+}
+
+div#page div#side-bar div#side-bar-nav ul li.selected {
+    background-color: #272727;
+}
+
+div#page div#side-bar div#side-bar-nav a {
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

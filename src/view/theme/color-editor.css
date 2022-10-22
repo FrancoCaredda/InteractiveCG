@@ -1,0 +1,9 @@
+div#color-editor {
+    display: flex;
+    flex-direction: row;
+    margin-left: 150px;
+}
+
+div#color-editor div#image-presentation {
+    margin-right: 150px;
+}
