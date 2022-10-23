@@ -1,3 +1,7 @@
+div#model-unvisible {
+    visibility: hidden;
+}
+
 div#color-editor {
     display: flex;
     flex-direction: row;
