@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
+
+import { CMYKToRGB, GetColorIndicesForCoord, HSLToRGB, RGBToCMY } from "../core/Color";
+
 import "./theme/canvas.css";
 import "./theme/color-editor.css";
+import "./theme/button.css";
 
 function ColorEditor() {
     const [cyanValue, setCyanValue] = useState(0);
@@ -8,67 +12,82 @@ function ColorEditor() {
     const [yellowValue, setYellowValue] = useState(0);
     const [blackValue, setBlackValue] = useState(0);
     const [lightValue, setLightValue] = useState(0);
-    const [model, setModel] = useState(true);
+    const [model, setModel] = useState(0);
+    const [imageData, setImageData] = useState();
 
-    const maxRGB = 255;
     const hue = 0;
     const saturation = 0;
-
-    const GetPercentValue = (percent, value) => {
-        return value * percent / 100;
-    };
-
-    const CMYKToRGB = (cyan, magenta, yellow, black) => {
-        let cyanValue = GetPercentValue(cyan, maxRGB);
-        let magentaValue = GetPercentValue(magenta, maxRGB);
-        let yellowValue = GetPercentValue(yellow, maxRGB);
-        let blackValue = GetPercentValue(black, 1);
-
-        let red = Math.floor((maxRGB - cyanValue) * (1 - blackValue));
-        let green = Math.floor((maxRGB - magentaValue) * (1 - blackValue));
-        let blue = Math.floor((maxRGB - yellowValue) * (1 - blackValue)); 
-
-        return [red, green, blue];
-    };
-
-    const HSLToRGB = (hue, saturation, light) => {
-        let l = GetPercentValue(light, 1);
-
-        let c = (1 - Math.abs(2*l - 1)) * saturation;
-        let x = c * (1 - Math.abs( (hue / 60) % 2 - 1));
-        let m = l - c / 2;
-
-        let tempRGB = [c, x, 0];
-
-        return [ Math.floor( (tempRGB[0] + m) * maxRGB ), 
-                 Math.floor( (tempRGB[1] + m) * maxRGB ), 
-                 Math.floor( (tempRGB[2] + m) * maxRGB ) ]; 
-    };
 
     useEffect(() => {
         const canvas = document.getElementById("canvas");
         const ctx = canvas.getContext("2d");
 
-        // let rgbColor = CMYKToRGB(cyanValue, magentaValue, yellowValue, blackValue);
-        let rgbColor = HSLToRGB(hue, saturation, lightValue);
+        let rgbColor = (model) ? HSLToRGB(hue, saturation, lightValue) : CMYKToRGB(cyanValue, magentaValue, yellowValue, blackValue);
 
-        ctx.fillStyle = "rgba(" + rgbColor[0] + ", " + rgbColor[1] + ", " + rgbColor[2] + ", 255)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#000";
-        ctx.fillText("RGB: " + rgbColor[0] + ", " + rgbColor[1] + ", " + rgbColor[2], 20, 20);
+        if (imageData != null) {
+            ctx.putImageData(imageData, 0, 0);
+            let image = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let data = image.data;
 
-        const cmykInstrument = document.getElementById("cmyk-model");
-        const hslInstrument = document.getElementById("hsl-model");
-        
-        if (model) {
-            cmykInstrument.classList.add("model-visible");
-            hslInstrument.classList.add("model-unvisible");
-        } else {
-            hslInstrument.classList.add("model-visible");
-            cmykInstrument.classList.add("model-unvisible");
+            ChangeImageColor(data, rgbColor[0], rgbColor[1], rgbColor[2]);
+            
+            image.data.set(data);
+            console.log(data);
+
+            ctx.putImageData(image, 0, 0);
         }
+    }, [cyanValue, magentaValue, yellowValue, blackValue, lightValue, imageData]);
 
-    }, [cyanValue, magentaValue, yellowValue, blackValue, lightValue, model]);
+    const SwitchToHSL = (e) => {
+        document.getElementById("cmyk-model-inputs").style.display = "none";
+        document.getElementById("hsl-model-inputs").style.display = "block";
+        setModel(1);
+    };
+
+    const SwitchToCMYK = (e) => {
+        document.getElementById("cmyk-model-inputs").style.display = "block";
+        document.getElementById("hsl-model-inputs").style.display = "none";   
+        setModel(0);
+    }
+
+    const ImageToCMY = (data) => {
+        for (let i = 0; i < data.length; i += 4) {
+            let cmy = RGBToCMY(data[i], data[i + 1], data[i + 2]);
+            data[i] = cmy[0];
+            data[i+1] = cmy[1];
+            data[i+2] = cmy[2];
+        }
+    }
+
+    const ChangeImageColor = (data, x, y, z) => {
+        for (let i = 0; i < data.length; i += 4) {
+            data[i] *= x / 255;
+            data[i+1] *= y / 255;
+            data[i+2] *= z / 255;
+        }
+    }
+
+    const loadImage = (e) => {
+        let img = new Image();
+        img.src = e.target.value;
+        img.setAttribute('crossOrigin', '');
+        
+        img.onload = () => {
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            let image = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let data = image.data;
+            
+            // ImageToCMY(data);
+
+            image.data.set(data);
+            setImageData(image);
+        }
+    }
 
     return (
         <div id="color-editor">
@@ -77,12 +96,16 @@ function ColorEditor() {
             </div>
             <div id="instruments">
                 <div className="model-select">
-                    <input type="radio" name="color-model" id="cmyk-model" checked onChange={ (e) => {setModel(true);} } />
-                    <label htmlFor="cmyk-model">CMYK</label>
-                    <input type="radio" name="color-model" id="hsl-model" onChange={ (e) => {setModel(false);} } />
-                    <label htmlFor="hsl-model">HSL</label>
+                    <input type="button" className="dark-button" name="color-model" id="cmyk-model" value={"CMYK"} onClick={SwitchToCMYK} />
+                    <input type="button" className="dark-button" name="color-model" id="hsl-model" value={"HSL"} onClick={SwitchToHSL} />
                 </div>
-                <div id="cmyk-model">
+                <div id="cmyk-model-inputs">
+                    <div className="text">
+                        <p>Cyan value is beetween [0, 100%] from 255</p>
+                        <p>Magenta value is beetween [0, 100%] from 255</p>
+                        <p>Yellow value is beetween [0, 100%] from 255</p>
+                        <p>Black value is beetween [0, 100%] from 255</p>
+                    </div>
                     <div className="input-field">
                         <label htmlFor="cyan-input">Cyan: </label>
                         <input type="number" name="cyan-input" min={0} max={100} id="cyan-input" 
@@ -104,12 +127,22 @@ function ColorEditor() {
                                                 onChange={  (e) => { setBlackValue(parseFloat(e.target.value)); } }/>
                     </div>
                 </div>
-                <div id="hsl-model">
+                <div id="hsl-model-inputs" style={{display: "none"}}>
+                    <div className="text">
+                        <p>Hue value is beetween [0, 360&deg;]</p>
+                        <p>Saturation value is beetween [0, 100%]</p>
+                        <p>Light value is beetween [0, 100%]</p>
+                    </div>
                     <div className="input-field">
+                        <p>Hue: 0</p>
+                        <p>Saturation: 0</p>
                         <label htmlFor="light-input">Light: </label>
                         <input type="number" name="light-input" id="light-input" min={0} max={100} 
                                                                     onChange={  (e) => { setLightValue(parseFloat(e.target.value)); } }/>
                     </div>
+                </div>
+                <div id="file-inputs">
+                    <input type="url" name="" id="" onChange={loadImage} />
                 </div>
             </div>
         </div>
