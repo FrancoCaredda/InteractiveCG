@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { create, all } from "mathjs";
 import "./theme/canvas.css";
 import "./theme/fractal-editor.css";
+import "./theme/input.css";
+import "./theme/button.css";
 
 function FractalEditor() {
     var math = create(all, { });
@@ -49,24 +51,31 @@ function FractalEditor() {
                 <canvas id="canvas"></canvas>
             </div>
             <div id="instruments">
-                <label htmlFor="iterationsInput">Iterations: </label>
-                <input id="iterationsInput" name="iterationsInput" placeholder="Iterations" type="number" min={0} max={40} 
-                                                              onChange={ (e) => { setIterations(parseInt(e.target.value)); } }/> <br />
-                <label htmlFor="radiusInput">Radius: </label>
-                <input id="radiusInput" name="radiusInput" placeholder="Radius" type="number" min={0} max={25} 
-                                                              onChange={ (e) => { setRadius(parseInt(e.target.value)); } }/> <br />
-                <label htmlFor="pixelInput">Pixel size: </label>
-                <input id="pixelInput" name="pixelInput" placeholder="Pixel size" type="number" min={0.1} step={0.01} max={5} 
-                                                              onChange={ (e) => { setPixelSize(parseFloat(e.target.value)); } }/> <br />
-                <label htmlFor="zoomInput">Zoom: </label>
-                <input id="zoomInput" name="zoomInput" placeholder="Zoom" type="number" min={0} step={0.05} max={1}
-                                                              onChange={ (e) => { setZoom(1 - parseFloat(e.target.value)); } }/> <br />
-                <label>Constant: </label>
-                <input placeholder="X" type="number" min={0} step={0.05} max={1} 
-                                                     onChange={ (e) => { setConstant( math.complex(parseFloat(e.target.value), constant.im) ); } }/>
-                <input placeholder="Y" type="number" min={0} step={0.05} max={1} 
-                                                     onChange={ (e) => { setConstant( math.complex(constant.re, parseFloat(e.target.value)) ); } }/> <br />
-                <button onClick={onDrawClick}>Draw</button>
+                <div id="inputs">
+                    <div id="label-block">
+                        <label htmlFor="iterationsInput">Iterations: </label>
+                        <label htmlFor="radiusInput">Radius: </label>
+                        <label htmlFor="pixelInput">Pixel size: </label>
+                        <label htmlFor="zoomInput">Zoom: </label>
+                        <label>Constant: </label>
+                    </div>
+                    <div id="input-block">
+                        <input id="iterationsInput" name="iterationsInput" placeholder="Iterations" type="number" min={0} max={40} 
+                                                                    onChange={ (e) => { setIterations(parseInt(e.target.value)); } }/> <br />
+                        <input id="radiusInput" name="radiusInput" placeholder="Radius" type="number" min={0} max={25} 
+                                                                    onChange={ (e) => { setRadius(parseInt(e.target.value)); } }/> <br />
+                        <input id="pixelInput" name="pixelInput" placeholder="Pixel size" type="number" min={0.1} step={0.01} max={5} 
+                                                                    onChange={ (e) => { setPixelSize(parseFloat(e.target.value)); } }/> <br />
+                        <input id="zoomInput" name="zoomInput" placeholder="Zoom" type="number" min={-1} step={0.05} max={1}
+                                                                    onChange={ (e) => { setZoom(1 - parseFloat(e.target.value)); } }/> <br />
+                        <input placeholder="X" type="number" min={0} step={0.05} max={1} 
+                                                            onChange={ (e) => { setConstant( math.complex(parseFloat(e.target.value), constant.im) ); } }/>
+                        <input placeholder="Y" type="number" min={0} step={0.05} max={1} 
+                                                            onChange={ (e) => { setConstant( math.complex(constant.re, parseFloat(e.target.value)) ); } }/> <br />
+                        
+                    </div>
+                </div>
+                <input onClick={onDrawClick} type="button" id="draw-button" value={"Draw"} className="dark-button" />
             </div>
         </div>
     );

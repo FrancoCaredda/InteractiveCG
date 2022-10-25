@@ -123,8 +123,8 @@ function ColorEditor() {
                     <input type="button" className="dark-button" name="color-model" id="hsl-model" value={"HSL"} onClick={SwitchToHSL} />
                 </div>
                 <div id="file-inputs">
-                    <label htmlFor="file-url">File: </label>
-                    <input type="url" name="" id="file-url" onChange={loadImage} />
+                    <label htmlFor="file-url">Image: </label>
+                    <input type="url" name="" id="file-url" placeholder="URL" onChange={loadImage} />
                 </div>
                 <div id="cmyk-model-inputs">
                     <div className="text">
@@ -141,13 +141,13 @@ function ColorEditor() {
                             <label htmlFor="black-input">Black: </label> <br />
                         </div>
                         <div className="input-block">
-                            <input type="number" name="cyan-input" min={0} max={100} id="cyan-input" 
+                            <input type="number" placeholder="0%" name="cyan-input" min={0} max={100} id="cyan-input" 
                                                         onChange={  (e) => { setCyanValue(parseFloat(e.target.value)); } } />
-                            <input type="number" name="magenta-input" min={0} max={100} id="magenta-input" 
+                            <input type="number" placeholder="0%" name="magenta-input" min={0} max={100} id="magenta-input" 
                                                         onChange={  (e) => { setMagentaValue(parseFloat(e.target.value)); } }/>
-                            <input type="number" name="yellow-input" min={0} max={100} id="yellow-input" 
+                            <input type="number" placeholder="0%" name="yellow-input" min={0} max={100} id="yellow-input" 
                                                         onChange={  (e) => { setYellowValue(parseFloat(e.target.value)); } }/>
-                            <input type="number" name="black-input" min={0} max={100} id="black-input" 
+                            <input type="number" placeholder="0%" name="black-input" min={0} max={100} id="black-input" 
                                                         onChange={  (e) => { setBlackValue(parseFloat(e.target.value)); } }/>
                         
                         </div>
@@ -163,7 +163,7 @@ function ColorEditor() {
                         <p>Hue: 0</p>
                         <p>Saturation: 0</p>
                         <label htmlFor="light-input">Light: </label>
-                        <input type="number" name="light-input" id="light-input" min={0} max={100} 
+                        <input type="number" placeholder="0%" name="light-input" id="light-input" min={0} max={100} 
                                                                     onChange={  (e) => { setLightValue(parseFloat(e.target.value)); } }/>
                     </div>
                 </div>

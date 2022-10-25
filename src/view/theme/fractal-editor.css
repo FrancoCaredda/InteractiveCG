@@ -1,10 +1,34 @@
 div#editor {
     display: flex;
     flex-direction: row;
-    margin-left: 150px;
+    margin-left: 140px;
+}
+
+div#editor div#instruments {
+    width: 260px;
+    padding: 5;
+    margin-left: 143px;
+    color: #fff;
 }
 
 div#editor div#fractal {
-    margin-right: 150px;
     height: 100%;
+}
+
+div#inputs {
+    display: flex;
+    flex-direction: row;
+}
+
+div#inputs div#label-block label {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+div#inputs div#input-block input {
+    margin-bottom: 5px;
+}
+
+input#draw-button {
+    width: inherit;
 }
