@@ -81,7 +81,7 @@ function ColorEditor() {
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            drawImageScaled(img, ctx)
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
             let image = ctx.getImageData(0, 0, canvas.width, canvas.height);
             let data = image.data;
@@ -108,8 +108,6 @@ function ColorEditor() {
         cmykLabel.innerHTML = "CMYK: " + cmykColor[0] + "%, " + cmykColor[1] + "%, " + cmykColor[2] + "%, " + cmykColor[3] + "%"; 
 
         document.getElementById("color").style.backgroundColor = "rgba(" + color[0] + "," + color[1] + "," + color[2] + ", 255)";
-
-
     };
 
     return (

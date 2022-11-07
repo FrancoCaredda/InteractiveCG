@@ -25,7 +25,7 @@ function Layout() {
                         <li className="selected"><Link to="/" onClick={onLinkClicked}>References</Link></li>
                         <li><Link to="/fractal" onClick={onLinkClicked}>Mandelbrot set</Link></li>
                         <li><Link to="/color" onClick={onLinkClicked}>Color models</Link></li>
-                        <li><Link to="/" onClick={onLinkClicked}>Movement</Link></li>
+                        <li><Link to="/movement" onClick={onLinkClicked}>Movement</Link></li>
                     </ul>
                 </div>
             </div>

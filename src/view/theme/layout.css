@@ -7,7 +7,7 @@ div#page {
 div#page div#side-bar {
     display: flex;
     flex-direction: column;
-    background: #353535;
+    background: rgb(54, 54, 54);
     box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
     width: 200px;
 }
