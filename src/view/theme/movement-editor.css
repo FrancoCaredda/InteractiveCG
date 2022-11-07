@@ -20,6 +20,7 @@ div#movement-editor div#layout div#movement-instruments {
     width: 350px;
     left: 100%;
     transform: translate(-100%, 0);
+    height: 673px;
 }
 
 div#movement-editor div#layout div#movement-instruments div#point-inputs {

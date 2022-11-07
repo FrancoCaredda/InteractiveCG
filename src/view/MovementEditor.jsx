@@ -1,9 +1,11 @@
+import { size } from "mathjs";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Rotate, Translate, Scale } from "../core/AffineTransformations";
 import MovementCanvas from "./MovementCanvas";
 import "./theme/movement-editor.css";
+import "./theme/button.css";
 
 let squarePositions = {
     A: [200, 200],
@@ -14,28 +16,55 @@ let squarePositions = {
 
 let delta = 0;
 let rotation = 0;
+let increment = 0.5;
+
+let side = 50;
 
 function MovementEditor() {
+    /** SQUARE **/
     const [pointA, setPointA] = useState([200, 200]);
     const [pointB, setPointB] = useState([250, 200]);
     const [pointC, setPointC] = useState([250, 250]);
     const [pointD, setPointD] = useState([200, 250]);
+    /** CANVAS **/
+    const [width, setWidth] = useState(500);
+    const [height, setHeight] = useState(500);
+
     const [zoom, setZoom] = useState(1);
     const [scale, setScale] = useState(1);
     const [interval, setInterv] = useState(); 
 
     useEffect(() => {
-
     }, [pointA, pointB, pointC, pointD]);
 
+    const drawSquare = (value) => {
+        const b = [pointA[0], pointA[1] + value];
+        const c = [pointA[0] + value, pointA[1] + value];
+        const d = [pointA[0] + value, pointA[1]];
+
+        squarePositions.A = pointA;
+        squarePositions.B = b;
+        squarePositions.C = c;
+        squarePositions.D = d;
+
+        setPointB(b);
+        setPointC(c);
+        setPointD(d);
+    };
+
     const rotateSquare = () => {
-        delta += 0.5;
+        delta += increment;
         rotation += 0.5;
+        console.log(delta);
 
         const center = [
             (squarePositions.A[0] + squarePositions.C[0]) / 2,
             (squarePositions.A[1] + squarePositions.C[1] + delta * 2) / 2
         ]
+
+        if (center[1] >= 500 || center[1] <= 0) {
+            increment *= -1;
+        }
 
         setPointA(Rotate(1.25 * parseFloat(rotation), Translate(squarePositions.A, [0, delta]), center));
         setPointB(Rotate(1.25 * parseFloat(rotation), Translate(squarePositions.B, [0, delta]), center));
@@ -47,41 +76,30 @@ function MovementEditor() {
         <div id="movement-editor">
             <div id="layout">
                 <div id="canvas">
-                    <MovementCanvas A={pointA} B={pointB} C={pointC} D={pointD} Zoom={zoom} />
+                    <MovementCanvas A={pointA} B={pointB} C={pointC} D={pointD} Zoom={zoom} Height={height} Width={width} />
                 </div>
                 <div id="movement-instruments">
                     <div id="point-inputs">
                         <div className="labels">
                             <label>Point A: </label>
-                            <label>Point B: </label>
-                            <label>Point C: </label>
-                            <label>Point D: </label>
+                            <label>Size: </label>
                         </div>
                         <div className="inputs">
                             <div className="point-input">
-                                <input type="number" id="pointA_X" step={0.001} onChange={ (e) => {squarePositions.A = [parseFloat(e.target.value), pointA[1]]; setPointA([parseFloat(e.target.value), pointA[1]]); } } />
-                                <input type="number" id="pointA_Y" step={0.001} onChange={ (e) => {squarePositions.A = [pointA[0], parseFloat(e.target.value)]; setPointA([pointA[0], parseFloat(e.target.value)]); } } />
+                                <input type="number" id="pointA_X" step={0.001} placeholder={200} onChange={ (e) => {setPointA([parseFloat(e.target.value), pointA[1]]); drawSquare(side); } } />
+                                <input type="number" id="pointA_Y" step={0.001} placeholder={200} onChange={ (e) => {setPointA([pointA[0], parseFloat(e.target.value)]); drawSquare(side); } } />
                             </div>
                             <div className="point-input">
-                                <input type="number" id="pointB_X" step={0.001} onChange={ (e) => {squarePositions.B = [parseFloat(e.target.value), pointB[1]]; setPointB([parseFloat(e.target.value), pointB[1]]); } } />
-                                <input type="number" id="pointB_Y" step={0.001} onChange={ (e) => {squarePositions.B = [pointB[0], parseFloat(e.target.value)]; setPointB([pointB[0], parseFloat(e.target.value)]); } } />
-                            </div>
-                            <div className="point-input">
-                                <input type="number" id="pointC_X" step={0.001} onChange={ (e) => {squarePositions.C = [parseFloat(e.target.value), pointC[1]]; setPointC([parseFloat(e.target.value), pointC[1]]); } } />
-                                <input type="number" id="pointC_Y" step={0.001} onChange={ (e) => {squarePositions.C = [pointC[0], parseFloat(e.target.value)]; setPointC([pointC[0], parseFloat(e.target.value)]); } } />
-                            </div>
-                            <div className="point-input">
-                                <input type="number" id="pointD_X" step={0.001} onChange={ (e) => {squarePositions.D = [parseFloat(e.target.value), pointD[1]]; setPointD([parseFloat(e.target.value), pointD[1]]); } } />
-                                <input type="number" id="pointD_Y" step={0.001} onChange={ (e) => {squarePositions.D = [pointD[0], parseFloat(e.target.value)]; setPointD([pointD[0], parseFloat(e.target.value)]); } }/>
+                                <input type="number" name="" step={1} min={10} max={100} placeholder={50} onChange={ (e) => { side = parseFloat(e.target.value); drawSquare(side); } } id="square-size" />
                             </div>
                         </div>
                     </div>
                     <div>
                         <label htmlFor="">Canvas scale: </label>
-                        <input type="number" name="gridScale" id="gridScale" min={1} step={0.5} max={3} onChange={ (e) => { setZoom(parseFloat(e.target.value)); } }/>
+                        <input type="number" name="gridScale" id="gridScale" placeholder={1} min={1} step={0.5} max={3} onChange={ (e) => { setZoom(parseFloat(e.target.value)); } }/>
                     </div>
-                    <button onClick={() => { setInterv(setInterval(rotateSquare, 0.05)); }}>Animate</button>
-                    <button onClick={() => { clearInterval(interval); }}>Stop</button>
+                    <button className="dark-button" onClick={() => { setInterv(setInterval(rotateSquare, 0.05)); }}>Animate</button>
+                    <button className="dark-button" onClick={() => { clearInterval(interval); }}>Stop</button>
                 </div>
             </div>
         </div>
