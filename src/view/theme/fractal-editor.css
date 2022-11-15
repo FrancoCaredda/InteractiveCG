@@ -6,9 +6,12 @@ div#editor {
 
 div#editor div#instruments {
     width: 260px;
-    padding: 5;
-    margin-left: 143px;
+    position: absolute;
+    left: 84%;
+    transform: translate(-84%, 0);
     color: #fff;
+    width: 250px;
+    height: 100%;
 }
 
 div#editor div#fractal {
