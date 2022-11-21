@@ -83,6 +83,7 @@ function MovementEditor() {
                         <div className="labels">
                             <label>Point A: </label>
                             <label>Size: </label>
+                            <label>Canvas scale: </label>
                         </div>
                         <div className="inputs">
                             <div className="point-input">
@@ -92,11 +93,10 @@ function MovementEditor() {
                             <div className="point-input">
                                 <input type="number" name="" step={1} min={10} max={100} placeholder={50} onChange={ (e) => { side = parseFloat(e.target.value); drawSquare(side); } } id="square-size" />
                             </div>
+                            <div className="point-input">
+                                <input type="number" name="gridScale" id="gridScale" placeholder={1} min={1} step={0.5} max={3} onChange={ (e) => { setZoom(parseFloat(e.target.value)); } }/>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label htmlFor="">Canvas scale: </label>
-                        <input type="number" name="gridScale" id="gridScale" placeholder={1} min={1} step={0.5} max={3} onChange={ (e) => { setZoom(parseFloat(e.target.value)); } }/>
                     </div>
                     <button className="dark-button" onClick={() => { setInterv(setInterval(rotateSquare, 0.05)); }}>Animate</button>
                     <button className="dark-button" onClick={() => { clearInterval(interval); }}>Stop</button>

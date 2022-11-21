@@ -5,13 +5,13 @@ div#editor {
 }
 
 div#editor div#instruments {
-    width: 260px;
-    position: absolute;
-    left: 84%;
-    transform: translate(-84%, 0);
-    color: #fff;
     width: 250px;
     height: 100%;
+    position: absolute;
+    left: 100%;
+    transform: translate(-100%, 0);
+    color: #fff;
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
 }
 
 div#editor div#fractal {
@@ -33,5 +33,5 @@ div#inputs div#input-block input {
 }
 
 input#draw-button {
-    width: inherit;
+    width: 255px;
 }

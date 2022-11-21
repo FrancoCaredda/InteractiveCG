@@ -14,23 +14,27 @@ function Layout() {
     };
 
     return (
-        <div id="page">
-            <div id="side-bar">
-                <div id="logo">
-                    <h2>InteractiveCG</h2>
-                    <p>Learn computer graphics</p>
+        <div id="page" className="container-fluid">
+            <div className="row">
+                <div id="side-bar" className="col-1">
+                    <div id="logo">
+                        <h2>InteractiveCG</h2>
+                        <p>Learn computer graphics</p>
+                    </div>
+                    <div id="side-bar-nav">
+                        <ul>
+                            <li className="selected"><Link to="/" onClick={onLinkClicked}>References</Link></li>
+                            <li><Link to="/fractal" onClick={onLinkClicked}>Mandelbrot set</Link></li>
+                            <li><Link to="/color" onClick={onLinkClicked}>Color models</Link></li>
+                            <li><Link to="/movement" onClick={onLinkClicked}>Movement</Link></li>
+                        </ul>
+                    </div>
                 </div>
-                <div id="side-bar-nav">
-                    <ul>
-                        <li className="selected"><Link to="/" onClick={onLinkClicked}>References</Link></li>
-                        <li><Link to="/fractal" onClick={onLinkClicked}>Mandelbrot set</Link></li>
-                        <li><Link to="/color" onClick={onLinkClicked}>Color models</Link></li>
-                        <li><Link to="/movement" onClick={onLinkClicked}>Movement</Link></li>
-                    </ul>
+
+                <div className="col">
+                    <Outlet />
                 </div>
             </div>
-
-            <Outlet />
         </div>
     );
 }

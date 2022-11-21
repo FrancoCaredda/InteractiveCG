@@ -115,7 +115,7 @@ function ColorEditor() {
             <div id="image-presentation">
                 <canvas id="canvas"></canvas>
             </div>
-            <div id="instruments">
+            <div id="color-instruments">
                 <div className="model-select">
                     <input type="button" className="dark-button" name="color-model" id="cmyk-model" value={"CMYK"} onClick={SwitchToCMYK} />
                     <input type="button" className="dark-button" name="color-model" id="hsl-model" value={"HSL"} onClick={SwitchToHSL} />

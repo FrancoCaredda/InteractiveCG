@@ -5,22 +5,23 @@ div#layout {
 
 div#movement-editor div#layout div#canvas {
     position: absolute;
-    left: 25%;
-    top: 15%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     border-radius: 20px;
     box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
     padding: 10px;
 }
 
 div#movement-editor div#layout div#movement-instruments {
+    height: 100%;
     box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
     color: #fff;
     padding: 10px;
     position: absolute;
-    width: 350px;
     left: 100%;
     transform: translate(-100%, 0);
-    height: 673px;
+    width: 250px;
 }
 
 div#movement-editor div#layout div#movement-instruments div#point-inputs {
@@ -34,7 +35,7 @@ div#movement-editor div#layout div#movement-instruments div#point-inputs div.lab
 
 div#movement-editor div#layout div#movement-instruments div#point-inputs div.labels label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 div#movement-editor div#layout div#movement-instruments div#point-inputs div.inputs div.point-input {
@@ -45,5 +46,9 @@ div#movement-editor div#layout div#movement-instruments div#point-inputs div.inp
 
 div#movement-editor div#layout div#movement-instruments div#point-inputs div.inputs div.point-input input[type=number] {
     margin-left: 5px;
-    width: 100px;
+    width: 75px;
+}
+
+div#movement-editor div#layout div#movement-instruments button.dark-button {
+    width: 75px;
 }

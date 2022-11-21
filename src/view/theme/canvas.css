@@ -1,5 +1,5 @@
 div#fractal-canvas {
-    position: relative;
+    position: absolute;
     top: 50%;
     transform: translate(0, -50%);
     background-color: #353535;
@@ -10,7 +10,7 @@ div#fractal-canvas {
 }
 
 canvas#canvas {
-    position: relative;
+    position: absolute;
     top: 50%;
     transform: translate(0, -50%);
     background-color: #353535;
