@@ -1,7 +1,6 @@
 div#editor {
     display: flex;
     flex-direction: row;
-    margin-left: 140px;
 }
 
 div#editor div#instruments {
@@ -12,6 +11,7 @@ div#editor div#instruments {
     transform: translate(-100%, 0);
     color: #fff;
     box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.25);
+    padding-top: 10px;
 }
 
 div#editor div#fractal {
@@ -20,18 +20,33 @@ div#editor div#fractal {
 
 div#inputs {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+}
+
+div#inputs div#label-block {
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 div#inputs div#label-block label {
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 17px;
 }
 
 div#inputs div#input-block input {
     margin-bottom: 5px;
+    width: 125px;
 }
 
 input#draw-button {
-    width: 255px;
+    width: 240px;
+    margin-left: 5px;
+}
+
+div.text-info {
+    margin-left: 5px;
+}
+
+div.text-info p, div.text-info h3 {
+    color: #fff;
 }

@@ -27,19 +27,29 @@ function FractalEditor() {
                </div>
             </div>
             <div id="instruments">
+                <div className="text-info">
+                    <div className="caption">
+                        <h3>Загальна інформація</h3>
+                    </div>
+                    <p>Діапазон ітерацій: [0; 40]</p>
+                    <p>Діапазон радіусу: [0; 25]</p>
+                    <p>Діапазон приближення: [-1; 1]</p>
+                    <p>Координати константи: [0; 1]</p>
+                </div>
+                <hr />
                 <div id="inputs">
                     <div id="label-block">
-                        <label htmlFor="iterationsInput">Iterations: </label>
-                        <label htmlFor="radiusInput">Radius: </label>
-                        <label htmlFor="zoomInput">Zoom: </label>
-                        <label>Constant: </label>
+                        <label htmlFor="iterationsInput">Ітераії: </label> <br />
+                        <label htmlFor="radiusInput">Радіус: </label> <br />
+                        <label htmlFor="zoomInput">Приближення: </label>
+                        <label>Константи: </label>
                     </div>
                     <div id="input-block">
-                        <input id="iterationsInput" name="iterationsInput" placeholder="Iterations" type="number" min={0} max={40} 
+                        <input id="iterationsInput" name="iterationsInput" placeholder="Ітерації" type="number" min={0} max={40} 
                                                                     onChange={ (e) => { setIterations(parseInt(e.target.value)); } }/> <br />
-                        <input id="radiusInput" name="radiusInput" placeholder="Radius" type="number" min={0} max={25} 
+                        <input id="radiusInput" name="radiusInput" placeholder="Радіус" type="number" min={0} max={25} 
                                                                     onChange={ (e) => { setRadius(parseInt(e.target.value)); } }/> <br />
-                        <input id="zoomInput" name="zoomInput" placeholder="Zoom" type="number" min={-1} step={0.05} max={1}
+                        <input id="zoomInput" name="zoomInput" placeholder="Приближення" type="number" min={-1} step={0.05} max={1}
                                                                     onChange={ (e) => { setZoom(1 - parseFloat(e.target.value)); } }/> <br />
                         <input placeholder="X" type="number" min={0} step={0.05} max={1} 
                                                             onChange={ (e) => { setConstant( math.complex(parseFloat(e.target.value), constant.im) ); } }/>
@@ -48,8 +58,7 @@ function FractalEditor() {
                         
                     </div>
                 </div>
-                <input onClick={onDrawClick} type="button" id="draw-button" value={ (!draw) ? "Draw" : "Clear" } className="dark-button" />
-               <span id="test"></span>
+                <input onClick={onDrawClick} type="button" id="draw-button" value={ (!draw) ? "Малювати" : "Очистити" } className="dark-button" />
             </div>
         </div>
     );

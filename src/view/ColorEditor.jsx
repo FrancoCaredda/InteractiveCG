@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-import { CMYKToRGB, GetColorIndicesForCoord, HSLToRGB, RGBToCMYK, RGBToHSL } from "../core/Color";
+import React, { useEffect, useState } from "react";import { CMYKToRGB, GetColorIndicesForCoord, HSLToRGB, RGBToCMYK, RGBToHSL } from "../core/Color";
 
 import "./theme/canvas.css";
 import "./theme/color-editor.css";
@@ -110,35 +108,50 @@ function ColorEditor() {
         document.getElementById("color").style.backgroundColor = "rgba(" + color[0] + "," + color[1] + "," + color[2] + ", 255)";
     };
 
+    const Pick = (event) => {
+        const ctx = document.getElementById("canvas").getContext("2d");
+        const bounding = document.getElementById("canvas").getBoundingClientRect();
+        console.log(bounding);
+        const x = event.clientX - bounding.left;
+        const y = event.clientY - bounding.top;
+        const pixel = ctx.getImageData(x, y, 1, 1);
+        const data = pixel.data;
+      
+        const rgb = [data[0], data[1], data[2]];
+        UpdateCoordinates(rgb);
+    }
+
     return (
         <div id="color-editor">
             <div id="image-presentation">
-                <canvas id="canvas"></canvas>
+                <canvas id="canvas" onMouseMove={(e) => Pick(e)}></canvas>
             </div>
             <div id="color-instruments">
                 <div className="model-select">
                     <input type="button" className="dark-button" name="color-model" id="cmyk-model" value={"CMYK"} onClick={SwitchToCMYK} />
                     <input type="button" className="dark-button" name="color-model" id="hsl-model" value={"HSL"} onClick={SwitchToHSL} />
                 </div>
-                <div id="file-inputs">
-                    <label htmlFor="file-url">Image: </label>
-                    <input type="url" name="" id="file-url" placeholder="URL" onChange={loadImage} />
-                </div>
                 <div id="cmyk-model-inputs">
                     <div className="text">
-                        <p>Cyan value is beetween [0, 100%] from 255</p>
-                        <p>Magenta value is beetween [0, 100%] from 255</p>
-                        <p>Yellow value is beetween [0, 100%] from 255</p>
-                        <p>Black value is beetween [0, 100%] from 255</p>
+                        <div className="caption">
+                            <h3>Загальна інформація</h3>
+                        </div>
+                        <p>Діапазон блакитного кольору [0, 100%] з 255</p>
+                        <p>Діапазон фіолетового кольору [0, 100%] з 255</p>
+                        <p>Діапазон жовтого кольору [0, 100%] з 255</p>
+                        <p>Діапазон чорного кольору [0, 100%] з 255</p>
                     </div>
+                    <hr />
                     <div id="inputs">
                         <div className="label-block">
-                            <label htmlFor="cyan-input">Cyan: </label> <br />
-                            <label htmlFor="magenta-input">Magenta: </label> <br />
-                            <label htmlFor="yellow-input">Yellow: </label> <br />
-                            <label htmlFor="black-input">Black: </label> <br />
+                            <label htmlFor="file-url">Картинка: </label>
+                            <label htmlFor="cyan-input">Блакитний: </label> <br />
+                            <label htmlFor="magenta-input">Фіолетовий: </label> <br />
+                            <label htmlFor="yellow-input">Жовтий: </label> <br />
+                            <label htmlFor="black-input">Чорний: </label> <br />
                         </div>
                         <div className="input-block">
+                            <input type="url" name="" id="file-url" placeholder="URL" onChange={loadImage} />
                             <input type="number" placeholder="0%" name="cyan-input" min={0} max={100} id="cyan-input" 
                                                         onChange={  (e) => { setCyanValue(parseFloat(e.target.value)); } } />
                             <input type="number" placeholder="0%" name="magenta-input" min={0} max={100} id="magenta-input" 
@@ -153,16 +166,28 @@ function ColorEditor() {
                 </div>
                 <div id="hsl-model-inputs" style={{display: "none"}}>
                     <div className="text">
-                        <p>Hue value is beetween [0, 360&deg;]</p>
-                        <p>Saturation value is beetween [0, 100%]</p>
-                        <p>Light value is beetween [0, 100%]</p>
+                        <div className="caption">
+                            <h3>Загальна інформація</h3>
+                        </div>
+                        <p>Значення пігменту належить діапазону [0, 360&deg;]</p>
+                        <p>Значення насиченості належить діапазону [0, 100%]</p>
+                        <p>Значення освітленості належить діапазону [0, 100%]</p>
                     </div>
+                    <hr />
                     <div className="input-field">
-                        <p>Hue: 0</p>
-                        <p>Saturation: 0</p>
-                        <label htmlFor="light-input">Light: </label>
-                        <input type="number" placeholder="0%" name="light-input" id="light-input" min={0} max={100} 
-                                                                    onChange={  (e) => { setLightValue(parseFloat(e.target.value)); } }/>
+                        <p>Пігмент: 0</p>
+                        <p>Насиченість: 0</p>
+                        <div className="inputs-wrapper">
+                            <div className="labels">
+                                <label htmlFor="file-url">Картинка: </label> <br />
+                                <label htmlFor="light-input">Освітленість: </label>
+                            </div>
+                            <div className="inputs">
+                                <input type="url" name="" id="file-url" placeholder="URL" onChange={loadImage} /> <br />
+                                <input type="number" placeholder="0%" name="light-input" id="light-input" min={0} max={100} 
+                                                                        onChange={  (e) => { setLightValue(parseFloat(e.target.value)); } }/>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="coordinates">

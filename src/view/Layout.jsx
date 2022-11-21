@@ -23,10 +23,10 @@ function Layout() {
                     </div>
                     <div id="side-bar-nav">
                         <ul>
-                            <li className="selected"><Link to="/" onClick={onLinkClicked}>References</Link></li>
-                            <li><Link to="/fractal" onClick={onLinkClicked}>Mandelbrot set</Link></li>
-                            <li><Link to="/color" onClick={onLinkClicked}>Color models</Link></li>
-                            <li><Link to="/movement" onClick={onLinkClicked}>Movement</Link></li>
+                            <li className="selected"><Link to="/" onClick={onLinkClicked}>Теорія</Link></li>
+                            <li><Link to="/fractal" onClick={onLinkClicked}>Множина мандельброта</Link></li>
+                            <li><Link to="/color" onClick={onLinkClicked}>Колірні моделі</Link></li>
+                            <li><Link to="/movement" onClick={onLinkClicked}>Рух квадрата</Link></li>
                         </ul>
                     </div>
                 </div>

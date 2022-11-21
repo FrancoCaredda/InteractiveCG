@@ -79,16 +79,25 @@ function MovementEditor() {
                     <MovementCanvas A={pointA} B={pointB} C={pointC} D={pointD} Zoom={zoom} Height={height} Width={width} />
                 </div>
                 <div id="movement-instruments">
+                    <div className="text-info">
+                        <div className="caption">
+                            <h3>Загальна інформація</h3>
+                        </div>
+                        <p>Діапазон координат: [0; 500]</p>
+                        <p>Діапазон розміру: [0; 100]</p>
+                        <p>Діапазон приближення: [1; 3]</p>
+                    </div>
+                    <hr />
                     <div id="point-inputs">
-                        <div className="labels">
-                            <label>Point A: </label>
-                            <label>Size: </label>
-                            <label>Canvas scale: </label>
+                        <div className="labels" style={{width: 250}}>
+                            <label>Точка: </label>
+                            <label>Розмір: </label>
+                            <label>Зум: </label>
                         </div>
                         <div className="inputs">
                             <div className="point-input">
-                                <input type="number" id="pointA_X" step={0.001} placeholder={200} onChange={ (e) => {setPointA([parseFloat(e.target.value), pointA[1]]); drawSquare(side); } } />
-                                <input type="number" id="pointA_Y" step={0.001} placeholder={200} onChange={ (e) => {setPointA([pointA[0], parseFloat(e.target.value)]); drawSquare(side); } } />
+                                <input type="number" id="pointA_X" min={0} step={0.001} placeholder={200} max={500} onChange={ (e) => {setPointA([parseFloat(e.target.value), pointA[1]]); drawSquare(side); } } />
+                                <input type="number" id="pointA_Y" min={0} step={0.001} placeholder={200} max={500} onChange={ (e) => {setPointA([pointA[0], parseFloat(e.target.value)]); drawSquare(side); } } />
                             </div>
                             <div className="point-input">
                                 <input type="number" name="" step={1} min={10} max={100} placeholder={50} onChange={ (e) => { side = parseFloat(e.target.value); drawSquare(side); } } id="square-size" />
@@ -98,8 +107,10 @@ function MovementEditor() {
                             </div>
                         </div>
                     </div>
-                    <button className="dark-button" onClick={() => { setInterv(setInterval(rotateSquare, 0.05)); }}>Animate</button>
-                    <button className="dark-button" onClick={() => { clearInterval(interval); }}>Stop</button>
+                    <center>
+                        <button className="dark-button" onClick={() => { setInterv(setInterval(rotateSquare, 0.05)); }}>Анімувати</button>
+                        <button className="dark-button" onClick={() => { clearInterval(interval); }}>Зупинити</button>
+                    </center>    
                 </div>
             </div>
         </div>
